@@ -1,0 +1,27 @@
+pipeline {
+    agent {
+        node {
+            label 'social-build'
+            customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
+            
+        }
+    }
+    stages {
+        stage('Build') {
+            steps {
+                echo 'Executing build...'
+                dir ("${env.WORKSPACE}") {
+                    powershell "${env.WORKSPACE}/BuildTeamCity/tl_buildCode.ps1 -CleanBuild -ConfigurationToBuild Debug"
+                }
+            }
+        }
+        stage('Unit tests') {
+            steps {
+                echo 'Run unit tests...'
+                dir ("${env.WORKSPACE}") {
+                    powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/vstest.ps1" 
+                }
+            }
+        }
+    }
+}
