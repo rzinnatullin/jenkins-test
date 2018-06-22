@@ -38,7 +38,7 @@ New-Item -ItemType Directory -Force -Path $reportPath
 Remove-Item -Recurse $artifactsDir -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path $artifactsDir
 
-$RepGenPath = (Resolve-Path "$ScriptDir\BuildTeamCity\ReportGenerator\tools\ReportGenerator.exe").ToString()
+$RepGenPath = (Resolve-Path "$ScriptDir\BuildJenkins\ReportGenerator\tools\ReportGenerator.exe").ToString()
 
 &$RepGenPath -reports:$xmlCoverageFile -targetdir:$reportPath -reportTypes:"HtmlSummary;XMLSummary"
 
