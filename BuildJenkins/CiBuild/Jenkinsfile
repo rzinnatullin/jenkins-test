@@ -21,15 +21,14 @@ pipeline {
                 dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
                 }
-                
-                echo 'Publishing coverage report...'
-                cobertura {
-                    coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
-                }
             }
         }
     }
     post {
+        always {
+            echo 'Publishing coverage report...'
+            cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
+        }
         always {
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
         }
