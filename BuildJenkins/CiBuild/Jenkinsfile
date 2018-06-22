@@ -31,10 +31,7 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts {
-                artifacts 'output/binaries/**,output/*.wsp,Artifacts/*.zip'
-                allowEmptyArchive true
-            }
+            archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip' allowEmptyArchive: true
         }
     }
 }
