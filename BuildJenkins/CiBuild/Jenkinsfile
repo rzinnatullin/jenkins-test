@@ -32,7 +32,11 @@ pipeline {
                     mstest (
                         pattern: 'TestResults/*.trx'
                     )
-                }
+                },
+                "thresholds" : {
+                },
+                "thresholdMode" : 1,
+                "testTimeMargin" : ""
             )
             
             echo 'Publishing coverage report...'
