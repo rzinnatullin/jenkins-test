@@ -26,6 +26,16 @@ pipeline {
                 dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/calcCoverage.ps1" 
                 }
+                
+                echo 'Publishing coverate report...'
+                publishHTML (target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: 'coverageReports',
+                    reportsFiles: 'index.html',
+                    reportName: 'Coverage'
+                ])
             }
         }
     }
