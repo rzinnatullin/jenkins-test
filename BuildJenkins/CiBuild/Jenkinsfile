@@ -33,7 +33,7 @@ pipeline {
                         pattern: 'TestResults/*.trx'
                     )
                 }
-            }
+            )
             
             echo 'Publishing coverage report...'
             cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
