@@ -21,9 +21,11 @@ pipeline {
                 dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
                 }
-            }
-            cobertura {
-                coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
+                
+                echo 'Publishing coverage report...'
+                cobertura {
+                    coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
+                }
             }
         }
     }
