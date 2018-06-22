@@ -28,8 +28,8 @@ pipeline {
         always {
             echo 'Publishing coverage report...'
             cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
-        }
-        always {
+            
+            echo 'Publishing artifacts...'
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
         }
     }
