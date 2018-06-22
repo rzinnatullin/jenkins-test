@@ -22,6 +22,9 @@ pipeline {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
                 }
             }
+            cobertura {
+                coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
+            }
         }
     }
     post {
