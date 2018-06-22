@@ -19,16 +19,8 @@ pipeline {
             steps {
                 echo 'Run unit tests...'
                 dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/vstest.ps1" 
+                    powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
                 }
-                
-                echo 'Preparing coverage report...'
-                dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildJenkins/calcCoverage.ps1" 
-                }
-                
-                echo 'Publishing unit test execution results...'
-                mstest testResultsFile:"TestResults/*.trx", keepLongStdio: true
             }
         }
     }
