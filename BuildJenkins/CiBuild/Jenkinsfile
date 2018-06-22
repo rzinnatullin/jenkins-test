@@ -29,7 +29,9 @@ pipeline {
             echo 'Publishing unit tests results...'
             xunit (
                 tools (
-                    mstest pattern: 'TestResults/*.trx'
+                    mstest (
+                        pattern: 'TestResults/*.trx'
+                    )
                 )
             )
             
