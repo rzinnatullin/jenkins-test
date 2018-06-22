@@ -26,6 +26,9 @@ pipeline {
     }
     post {
         always {
+            echo 'Publishing unit test results...'
+            mstest testResultsFile: 'TestResults/*.trx', keepLongStdio: true
+            
             echo 'Publishing coverage report...'
             cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
             
