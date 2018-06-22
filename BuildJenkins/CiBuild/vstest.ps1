@@ -8,7 +8,7 @@ foreach ($fi in $filters) {
   }
 }
 $assmsToRun = ($assmsToRun | Select -ExpandProperty FullName)
-Write-Host $assmsToRun.Count " assemblies found:"
+Write-Host $assmsToRun.Count "assemblies found:"
 $assmsToRun
 
 Write-Host 'Executing unit tests'
