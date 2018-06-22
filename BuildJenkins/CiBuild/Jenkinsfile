@@ -21,6 +21,11 @@ pipeline {
                 dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/vstest.ps1" 
                 }
+                
+                echo 'Preparing coverage report...'
+                dir ("${env.WORKSPACE}") {
+                    powershell "${env.WORKSPACE}/BuildJenkins/calcCoverage.ps1" 
+                }
             }
         }
     }
