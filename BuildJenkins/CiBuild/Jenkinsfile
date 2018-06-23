@@ -28,11 +28,11 @@ pipeline {
         always {
             echo 'Publishing unit tests results...'
             xunit (
-                "tools" : {
+                "tools" : 
                     mstest (
                         pattern: 'TestResults/*.trx'
                     )
-                },
+                ,
                 "thresholds" : {
                 },
                 "thresholdMode" : 1,
