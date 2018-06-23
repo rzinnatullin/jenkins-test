@@ -26,17 +26,19 @@ pipeline {
     }
     post {
         always {
-            echo 'Publishing unit tests results...'
-            xunit (
-                tools : [ MSTest (pattern: 'TestResults/*.trx') ],
-                thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ]
-            )
-            
             echo 'Publishing coverage report...'
             cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
             
             echo 'Publishing artifacts...'
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
+            
+            echo 'Publishing unit tests results...'
+            step {
+                xunit (
+                    tools : [ MSTest (pattern: 'TestResults/*.trx') ],
+                    thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ]
+                )
+            }
         }
     }
 }
