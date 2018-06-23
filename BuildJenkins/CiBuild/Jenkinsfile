@@ -33,12 +33,12 @@ pipeline {
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
             
             echo 'Publishing unit tests results...'
-            step {
+            step (
                 xunit (
                     tools : [ MSTest (pattern: 'TestResults/*.trx') ],
                     thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ]
                 )
-            }
+            )
         }
     }
 }
