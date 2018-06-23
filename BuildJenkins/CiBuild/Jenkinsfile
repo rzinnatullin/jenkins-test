@@ -27,11 +27,9 @@ pipeline {
     post {
         always {
             echo 'Publishing unit tests results...'
-            step(
-                xunit (
-                    tools : [ MSTest (pattern: 'TestResults/*.trx') ],
-                    thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ]
-                )
+            xunit (
+                tools : [ MSTest (pattern: 'TestResults/*.trx') ],
+                thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ]
             )
             
             echo 'Publishing coverage report...'
