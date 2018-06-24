@@ -26,13 +26,6 @@ pipeline {
     }
     post {
         always {
-            echo 'Publishing coverage report...'
-            cobertura coberturaReportFile: 'TestResults/Cobertura-coverage.xml'
-            
-            echo 'Publishing artifacts...'
-            archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
-            
-            echo 'Publishing unit tests results...'
             step (
                 xunit (
                     tools : [ MSTest (pattern: 'TestResults/*.trx') ],
