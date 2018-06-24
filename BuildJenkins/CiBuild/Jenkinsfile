@@ -30,7 +30,7 @@ pipeline {
                 tools : [ MSTest (pattern: 'TestResults/*.trx') ],
                 thresholds : [ skipped(failureThreshold: '0'), failed(failureThreshold: '0') ],
                 thresholdMode : 1,
-                testTimeMargin : 3000
+                testTimeMargin : '3000'
             )
         }
     }
