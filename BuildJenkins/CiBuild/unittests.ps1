@@ -21,7 +21,7 @@ New-Item -ItemType Directory -Force -Path $testResultDir > $null
 Write-Host 'Executing unit tests and collecting coverage'
 OpenCover.Console.exe `
   -target:"vstest.console.exe" `
-  -targetargs:"/Logger:trx /Platform:x64 /InIsolation /Settings:test.runsettings $assmsToRun" `
+  -targetargs:"/Logger:trx /Platform:x64 /InIsolation $assmsToRun" `
   -output:"$testResultDir\OpenCover-coverage.xml" `
   -filter:"-[*.Tests]* +[*]*" `
   -register
