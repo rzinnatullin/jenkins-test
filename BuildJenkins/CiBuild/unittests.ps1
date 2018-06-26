@@ -22,9 +22,9 @@ Write-Host 'Executing unit tests and collecting coverage'
 . vstest.console.exe /Logger:trx /Platform:x64 /InIsolation /EnableCodeCoverage $assmsToRun
 
 Write-Host 'Converting .coverage to .coveragexml'
-$coverageFile = (Get-ChildItem -File *.coverage -Recurse | Select-Object -first 1).FullName
+$coverageFile = (Get-ChildItem -File (Join-Path $sourcesRoot *.coverage) -Recurse | Select-Object -first 1).FullName
 $coverageXmlFile = Join-Path $testResultDir "vstest.coveragexml"
 $coverageConverter = Join-Path $sourcesRoot "BuildJenkins/CoverageConverter/Compiled/CoverageConverter.exe"
-Write-Host "Coverage file $coverageFile"
-Write-Host "CoverageXml file $coverageXmlFile"
+Write-Host "Coverage file (input): $coverageFile"
+Write-Host "CoverageXml file (output): $coverageXmlFile"
 .$coverageConverter $coverageFile $coverageXmlFile
