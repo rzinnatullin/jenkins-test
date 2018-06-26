@@ -19,4 +19,4 @@ Remove-Item -Path $testResultDir -Recurse -ErrorAction:SilentlyContinue
 New-Item -ItemType Directory -Force -Path $testResultDir > $null
 
 Write-Host 'Executing unit tests and collecting coverage'
-vstest.console.exe /Logger:trx /Platform:x64 /InIsolation /EnableCodeCoverage $assmsToRun
+."C:\Program Files (x86)\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe" /Logger:trx /Platform:x64 /InIsolation /EnableCodeCoverage $assmsToRun
