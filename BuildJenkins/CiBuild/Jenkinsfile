@@ -27,7 +27,7 @@ pipeline {
     post {
         always {
             echo 'Publishing unit tests results...'
-            step([$class: 'MSTestPublisher', testResultsFile:"testResults/*.trx", failOnError: true, keepLongStdio: true])
+            step([$class: 'MSTestPublisher', testResultsFile:"testResults/**/*.trx", failOnError: true, keepLongStdio: true])
             
             echo 'Publishing artifacts...'
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
