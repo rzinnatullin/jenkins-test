@@ -31,6 +31,18 @@ pipeline {
             
             echo 'Publishing artifacts...'
             archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip,TestResults/**', allowEmptyArchive: true
+            
+            echo 'Publishing coverage report...'
+            publishHTML (
+                target: [
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: false,
+                    keepAll: true,
+                    reportDir: TestResults/CoverageReport,
+                    reportFiles: 'index.html',
+                    reportName: 'Coverage report'
+                ]
+            )
         }
     }
 }

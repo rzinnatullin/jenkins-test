@@ -23,11 +23,11 @@ Write-Host 'Executing unit tests and collecting coverage'
 
 Write-Host 'Converting .coverage to .coveragexml'
 $coverageFile = (Get-ChildItem -File (Join-Path $sourcesRoot *.coverage) -Recurse | Select-Object -first 1).FullName
-$coverageXmlFile = Join-Path $testResultDir "vstest.coveragexml"
+$coverageXmlFile = Join-Path $testResultDir "coverage.xml"
 $coverageConverter = Join-Path $sourcesRoot "BuildJenkins/CoverageConverter/Compiled/CoverageConverter.exe"
 Write-Host "Coverage file (input): $coverageFile"
 Write-Host "CoverageXml file (output): $coverageXmlFile"
 .$coverageConverter $coverageFile $coverageXmlFile
 
 Write-Host 'Generating coverage report'
-."C:/ReportGenerator/ReportGenerator.exe" -reports:"$coverageXmlFile" -targetdir:(Join-Path $testResultDir Report)
+."C:/ReportGenerator/ReportGenerator.exe" -reports:"$coverageXmlFile" -targetdir:(Join-Path $testResultDir CoverageReport)
