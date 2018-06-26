@@ -30,7 +30,7 @@ pipeline {
             step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
             
             echo 'Publishing artifacts...'
-            archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip', allowEmptyArchive: true
+            archiveArtifacts artifacts: 'output/binaries/**,output/*.wsp,Artifacts/*.zip,TestResults/**', allowEmptyArchive: true
         }
     }
 }

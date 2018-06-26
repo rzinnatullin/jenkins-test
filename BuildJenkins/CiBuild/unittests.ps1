@@ -28,3 +28,6 @@ $coverageConverter = Join-Path $sourcesRoot "BuildJenkins/CoverageConverter/Comp
 Write-Host "Coverage file (input): $coverageFile"
 Write-Host "CoverageXml file (output): $coverageXmlFile"
 .$coverageConverter $coverageFile $coverageXmlFile
+
+Write-Host 'Generating coverage report'
+."C:/ReportGenerator/ReportGenerator.exe" -reports:"$coverageXmlFile" -targetdir:(Join-Path $testResultDir Report)
