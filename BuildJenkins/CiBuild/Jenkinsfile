@@ -42,10 +42,10 @@ pipeline {
                     reportFiles: 'index.htm',
                     reportName: 'Coverage report'
                 ]
-            )
+            );
             
             echo 'Publishing status to Github...'
-            step { setGitHubPullRequestStatus }
+            setGitHubPullRequestStatus
         }
     }
 }
