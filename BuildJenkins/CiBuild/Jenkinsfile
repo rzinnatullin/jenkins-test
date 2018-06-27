@@ -28,7 +28,7 @@ pipeline {
         always {
             echo 'Publishing status to Github...'
             step([
-                $class: "GitHubCommitStatusSetter",
+                $class: "GitHubCommitStatusSetter444",
                 reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/rzinnatullin/jenkins-test"],
                 contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
                 errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
