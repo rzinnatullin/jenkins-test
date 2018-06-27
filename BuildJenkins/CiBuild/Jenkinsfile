@@ -43,6 +43,9 @@ pipeline {
                     reportName: 'Coverage report'
                 ]
             )
+            
+            echo 'Publishing status to Github...'
+            setGitHubPullRequestStatus
         }
     }
 }
