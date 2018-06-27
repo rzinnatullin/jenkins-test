@@ -7,7 +7,7 @@ pipeline {
         }
     }
     stages {
-        stage('Build') {
+        /*stage('Build') {
             steps {
                 echo 'Executing build...'
                 dir ("${env.WORKSPACE}") {
@@ -22,11 +22,11 @@ pipeline {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
                 }
             }
-        }
+        }*/
     }
     post {
         always {
-            echo 'Publishing unit tests results...'
+            /*echo 'Publishing unit tests results...'
             step([$class: 'MSTestPublisher', testResultsFile:"**/*.trx", failOnError: true, keepLongStdio: true])
             
             echo 'Publishing artifacts...'
@@ -42,7 +42,7 @@ pipeline {
                     reportFiles: 'index.htm',
                     reportName: 'Coverage report'
                 ]
-            );
+            );*/
             
             echo 'Publishing status to Github...'
             step([
