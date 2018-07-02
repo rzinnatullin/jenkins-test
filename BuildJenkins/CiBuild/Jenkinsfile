@@ -51,7 +51,11 @@ def getCommitSha() {
 def updateGithubCommitStatus(build) {
   // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
   repoUrl = getRepoURL()
+  echo 'repoUrl'
+  echo repoUrl
   commitSha = getCommitSha()
+  echo 'commitSha'
+  echo commitSha
  
   step([
     $class: 'GitHubCommitStatusSetter',
