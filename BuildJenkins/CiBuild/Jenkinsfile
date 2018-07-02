@@ -30,7 +30,9 @@ pipeline {
         always {
             echo 'Publishing status to Github...'
             step(
-                updateGithubCommitStatus(currentBuild);
+                script {
+                    updateGithubCommitStatus(currentBuild);
+                }
             );
         }
     }
