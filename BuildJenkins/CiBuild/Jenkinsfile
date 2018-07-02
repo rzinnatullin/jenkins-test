@@ -1,7 +1,7 @@
 pipeline {
     agent {
         node {
-            label 'social-build'
+            label 'skyvera-jenkins-win-build'
             customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
             
         }
