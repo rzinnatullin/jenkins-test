@@ -9,7 +9,7 @@ pipeline {
         stage('Build') {
             steps {
                 script {
-                    properties([pipelineTriggers([[$class: 'GitHubPushTrigger'], pollSCM('* * * * *')])])
+                    properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
                 }
                 echo 'Executing build...'
                 dir ("${env.WORKSPACE}") {
