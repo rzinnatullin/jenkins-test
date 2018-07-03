@@ -6,6 +6,12 @@ pipeline {
         }
     }
     stages {
+        stage('Prepare to build') {
+            script {
+                echo 'Sending PENDING status to GitHub...'
+                updateGithubCommitStatus('PENDING', 'Jenkins build started');
+            }
+        }
         stage('Build') {
             steps {
                 script {
@@ -28,7 +34,7 @@ pipeline {
     }
     post {
         always {
-            echo 'Publishing status to Github...'
+            echo 'Sending build result to GitHub...'
             script {
                 if (currentBuild.result == null || currentBuild.result == 'SUCCESS')
                     updateGithubCommitStatus('SUCCESS', 'Jenkins build succeded');
