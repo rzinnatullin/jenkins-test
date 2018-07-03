@@ -32,7 +32,7 @@ pipeline {
             echo 'Publishing status to Github...'
             script {
                 if (currentBuild.result == null || currentBuild.result == 'SUCCESS')
-                    updateGithubCommitStatus('SUCCESS', 'Jenkins build succeded');
+                    updateGithubCommitStatus('FAILURE', 'Jenkins build succeded');
                 else
                     updateGithubCommitStatus('FAILURE', 'Jenkins build failed');
             }
