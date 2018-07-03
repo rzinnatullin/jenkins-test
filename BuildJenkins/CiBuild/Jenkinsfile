@@ -29,11 +29,11 @@ pipeline {
     post {
         always {
             echo 'Publishing status to Github...'
-            /*step(
+            step(
                 script {
                     updateGithubCommitStatus(currentBuild);
                 }
-            );*/
+            );
         }
     }
 }
@@ -49,13 +49,8 @@ def getCommitSha() {
 }
  
 def updateGithubCommitStatus(build) {
-  // workaround https://issues.jenkins-ci.org/browse/JENKINS-38674
   repoUrl = getRepoURL()
-  echo 'repoUrl'
-  echo repoUrl
   commitSha = getCommitSha()
-  echo 'commitSha'
-  echo commitSha
  
   step([
     $class: 'GitHubCommitStatusSetter',
@@ -65,9 +60,7 @@ def updateGithubCommitStatus(build) {
     statusResultSource: [
       $class: 'ConditionalStatusResultSource',
       results: [
-        [$class: 'BetterThanOrEqualBuildResult', result: 'SUCCESS', state: 'SUCCESS', message: build.description],
-        [$class: 'BetterThanOrEqualBuildResult', result: 'FAILURE', state: 'FAILURE', message: build.description],
-        [$class: 'AnyBuildResult', state: 'FAILURE', message: build.description]
+        [$class: 'AnyBuildResult', state: build.Result, message: build.description]
       ]
     ]
   ])
