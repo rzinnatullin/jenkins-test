@@ -29,11 +29,11 @@ pipeline {
     post {
         always {
             echo 'Publishing status to Github...'
-            step(
+            /*step(
                 script {
                     updateGithubCommitStatus(currentBuild);
                 }
-            );
+            );*/
         }
     }
 }
