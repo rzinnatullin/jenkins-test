@@ -1,8 +1,8 @@
 pipeline {
     agent {
         node {
-            label 'skyvera-jenkins-win-build'
-            customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
+            //label 'skyvera-jenkins-win-build'
+            //customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
         }
     }
     stages {
@@ -12,17 +12,17 @@ pipeline {
                     properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
                 }
                 echo 'Executing build...'
-                dir ("${env.WORKSPACE}") {
+                /*dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildTeamCity/tl_buildCode.ps1 -CleanBuild -ConfigurationToBuild Debug"
-                }
+                }*/
             }
         }
         stage('Unit tests') {
             steps {
                 echo 'Run unit tests...'
-                dir ("${env.WORKSPACE}") {
+                /*dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
-                }
+                }*/
             }
         }
     }
