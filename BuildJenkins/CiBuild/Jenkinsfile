@@ -1,10 +1,11 @@
 pipeline {
-    /*agent {
-        node {
+    agent {
+        any
+        /*node {
             label 'skyvera-jenkins-win-build'
             customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
-        }
-    }*/
+        }*/
+    }
     stages {
         stage('Build') {
             steps {
