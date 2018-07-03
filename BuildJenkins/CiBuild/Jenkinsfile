@@ -51,6 +51,10 @@ def getCommitSha() {
 def updateGithubCommitStatus(build) {
   repoUrl = getRepoURL()
   commitSha = getCommitSha()
+  echo build
+  echo build.description
+  echo build.result
+  echo build.Result
  
   step([
     $class: 'GitHubCommitStatusSetter',
@@ -60,7 +64,7 @@ def updateGithubCommitStatus(build) {
     statusResultSource: [
       $class: 'ConditionalStatusResultSource',
       results: [
-        [$class: 'AnyBuildResult', state: build.Result, message: build.description]
+        [$class: 'AnyBuildResult', state: build.result, message: build.description]
       ]
     ]
   ])
