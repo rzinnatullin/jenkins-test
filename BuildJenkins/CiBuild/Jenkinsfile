@@ -36,6 +36,10 @@ pipeline {
     }
     post {
         always {
+            echo 'Some failing step'
+            script {
+                throw new Exception('Fake exception');
+            }
             echo 'Sending build result to GitHub...'
             script {
                 if (currentBuild.result == null || currentBuild.result == 'SUCCESS')
