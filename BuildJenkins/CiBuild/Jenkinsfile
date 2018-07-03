@@ -7,9 +7,11 @@ pipeline {
     }
     stages {
         stage('Prepare to build') {
-            script {
-                echo 'Sending PENDING status to GitHub...'
-                updateGithubCommitStatus('PENDING', 'Jenkins build started');
+            steps {
+                script {
+                    echo 'Sending PENDING status to GitHub...'
+                    updateGithubCommitStatus('PENDING', 'Jenkins build started');
+                }
             }
         }
         stage('Build') {
