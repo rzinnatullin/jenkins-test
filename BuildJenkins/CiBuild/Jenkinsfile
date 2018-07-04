@@ -1,80 +1,30 @@
 pipeline {
-    agent {
+    agent any
+    /*agent {
         node {
             label 'skyvera-jenkins-win-build'
             customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
         }
-    }
+    }*/
     stages {
-        stage('Prepare to build') {
-            steps {
-                script {
-                    echo 'Sending PENDING status to GitHub...'
-                    updateGithubCommitStatus('PENDING', 'Jenkins build started');
-                }
-            }
-        }
         stage('Build') {
             steps {
                 script {
                     properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
                 }
                 echo 'Executing build...'
-                dir ("${env.WORKSPACE}") {
+                /*dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildTeamCity/tl_buildCode.ps1 -CleanBuild -ConfigurationToBuild Debug"
-                }
+                }*/
             }
         }
         stage('Unit tests') {
             steps {
                 echo 'Run unit tests...'
-                dir ("${env.WORKSPACE}") {
+                /*dir ("${env.WORKSPACE}") {
                     powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
-                }
+                }*/
             }
         }
     }
-    post {
-        always {
-            echo 'Some failing step'
-            script {
-                throw new Exception('Fake exception');
-            }
-            echo 'Sending build result to GitHub...'
-            script {
-                if (currentBuild.result == null || currentBuild.result == 'SUCCESS')
-                    updateGithubCommitStatus('SUCCESS', 'Jenkins build succeded');
-                else
-                    updateGithubCommitStatus('FAILURE', 'Jenkins build failed');
-            }
-        }
-    }
-}
-
-def getRepoURL() {
-  bat "git config --get remote.origin.url > .git/remote-url"
-  return readFile(".git/remote-url").trim()
-}
- 
-def getCommitSha() {
-  bat "git rev-parse HEAD > .git/current-commit"
-  return readFile(".git/current-commit").trim()
-}
- 
-def updateGithubCommitStatus(state, message) {
-  repoUrl = getRepoURL()
-  commitSha = getCommitSha()
-
-  step([
-    $class: 'GitHubCommitStatusSetter',
-    reposSource: [$class: "ManuallyEnteredRepositorySource", url: repoUrl],
-    commitShaSource: [$class: "ManuallyEnteredShaSource", sha: commitSha],
-    errorHandlers: [[$class: 'ShallowAnyErrorHandler']],
-    statusResultSource: [
-      $class: 'ConditionalStatusResultSource',
-      results: [
-        [$class: 'AnyBuildResult', state: state, message: message]
-      ]
-    ]
-  ])
 }
