@@ -1,30 +1,79 @@
+import java.nio.file.*
+
 pipeline {
-    agent any
-    /*agent {
+    //agent any
+    agent {
         node {
             label 'skyvera-jenkins-win-build'
             customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
         }
-    }*/
+    }
     stages {
-        stage('Build') {
+        stage('Prepare to build') {
             steps {
+                echo 'Clean up...'
+                bat "git clean -d -f"
+                
+                echo 'Copying artifacts from dependent builds...'
                 script {
-                    properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
+                    doTest(currentBuild.getRawBuild(), "Comm CI Build", "build/SVSOCIAL-10912", "develop", "${env.WORKSPACE}/out")
                 }
-                echo 'Executing build...'
-                /*dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildTeamCity/tl_buildCode.ps1 -CleanBuild -ConfigurationToBuild Debug"
-                }*/
             }
         }
-        stage('Unit tests') {
-            steps {
-                echo 'Run unit tests...'
-                /*dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
-                }*/
-            }
+    }
+    post {
+        always {
+            echo 'Publishing artifacts...'
+            archiveArtifacts artifacts: 'out/**', allowEmptyArchive: true
         }
+    }
+}
+
+def doTest(currentBuild, projectName, preferredBranchName, defaultBranchName, targetDir) {
+    def project = findProject(currentBuild, projectName)
+    def actualBranchName = preferredBranchName
+    def foundBuild = findLastSuccessfulBuildForBranch(project, preferredBranchName)
+    if (foundBuild == null) {
+        foundBuild = findLastSuccessfulBuildForBranch(project, defaultBranchName)
+        actualBranchName = defaultBranchName
+    }
+    if (foundBuild == null) {
+        throw new Exception("Cound find any successful build neither in '${preferredBranchName}' nor in '${defaultBranchName}' branch in '${projectName}' project")
+    }
+    echo "Copying artifacts from '${projectName}'/'${actualBranchName}'/" + foundBuild.getDisplayName() 
+    doCopyArtifacts(foundBuild, targetDir)
+}
+
+def findProject(currentBuild, projectName) {
+    def branchJob = currentBuild.getParent()
+    def confJob = branchJob.getParent()
+    def ciBuilds = confJob.getParent()
+    for (item in ciBuilds.getItems()) {
+        if (item.getDisplayName() == projectName) {
+            return item
+        }
+    }
+}
+
+def findLastSuccessfulBuildForBranch(project, branchName) {
+    for (item in project.getItems()) {
+        if (item.getDisplayName() == branchName) {
+            def completeds = item.getBuilds().completedOnly()
+            if (completeds.any()) {
+                return completeds.first()
+            }
+            return null
+        }
+    }
+}
+
+def doCopyArtifacts(sourceBuild, targetDir) {
+    def rootDir = sourceBuild.getArtifactManager().root()
+    for (artifact in sourceBuild.getArtifacts()) {
+        def targetPath = Paths.get(targetDir, artifact.relativePath)
+        new File(targetPath.getParent().toString()).mkdirs()
+        echo "Copying '" + artifact.relativePath + "' to '" + targetDir + "'"
+        def fileStream = rootDir.child(artifact.relativePath).open()
+        Files.copy(fileStream, targetPath, StandardCopyOption.REPLACE_EXISTING)
     }
 }
