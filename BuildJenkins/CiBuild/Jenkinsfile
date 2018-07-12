@@ -3,11 +3,13 @@ pipeline {
     stages {
         stage('Check texts') {
             steps {
-                echo 'Text 1'
-                echo readFile "${env.WORKSPACE}/Text1.txt"
-                
-                echo 'Text 2'
-                echo readFile "${env.WORKSPACE}/Text2.txt"
+                script {
+                    echo 'Text 1'
+                    echo readFile "${env.WORKSPACE}/Text1.txt"
+                    
+                    echo 'Text 2'
+                    echo readFile "${env.WORKSPACE}/Text2.txt"
+                }
             }
         }
     }
