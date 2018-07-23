@@ -1,39 +1,16 @@
 pipeline {
-    agent {
-        node {
-            label 'skyvera-jenkins-win-build'
-            customWorkspace "c:\\jenkins\\ci_buid_${env.BUILD_NUMBER}"
-            
-        }
-    }
+    agent any
     stages {
-        stage('Build') {
+        stage('Check texts') {
             steps {
-                echo 'Executing build...'
-                dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildTeamCity/tl_buildCode.ps1 -CleanBuild -ConfigurationToBuild Debug"
+                script {
+                    echo 'Text 1'
+                    echo readFile("${env.WORKSPACE}/Text1.txt")
+                    
+                    echo 'Text 2'
+                    echo readFile("${env.WORKSPACE}/Text2.txt")
                 }
             }
-        }
-        stage('Unit tests') {
-            steps {
-                echo 'Run unit tests...'
-                dir ("${env.WORKSPACE}") {
-                    powershell "${env.WORKSPACE}/BuildJenkins/CiBuild/unittests.ps1" 
-                }
-            }
-        }
-    }
-    post {
-        always {
-            echo 'Publishing status to Github...'
-            step([
-                $class: "GitHubCommitStatusSetter444",
-                reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/rzinnatullin/jenkins-test"],
-                contextSource: [$class: "ManuallyEnteredCommitContextSource", context: "ci/jenkins/build-status"],
-                errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
-                statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
-            ]);
         }
     }
 }
