@@ -4,6 +4,10 @@ pipeline {
         stage('Check texts') {
             steps {
                 script {
+                    properties([pipelineTriggers([[$class: 'GitHubPushTrigger']])])
+                }
+                
+                script {
                     echo 'Text 1'
                     echo readFile("${env.WORKSPACE}/Text1.txt")
                     
