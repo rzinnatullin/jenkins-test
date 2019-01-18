@@ -1,0 +1,29 @@
+pipeline {
+    agent {
+        node {
+            label 'skyvera-jenkins-win-build'
+            customWorkspace "c:\\jenkins\\build"
+        }
+    }
+    options {
+        skipDefaultCheckout true
+        timestamps()
+    }
+    stages {
+        stage('Test PowerShell') {
+            steps {
+                echo 'Testing Get-PSDrive 1'
+                powershell "Write-Host 'Disk space usage:'(Get-PSDrive C | Select-Object Used,Free)"
+
+                echo 'Testing Write-Host 1'
+                powershell "Write-Host 'Hello world!'"
+
+                echo 'Testing Get-PSDrive 2'
+                powershell "Write-Host 'Disk space usage:'(Get-PSDrive C | Select-Object Used,Free)"
+
+                echo 'Testing Write-Host 2'
+                powershell "Write-Host 'Hello world!'"
+            }
+        }
+    }
+}
